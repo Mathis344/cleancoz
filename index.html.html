@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CleanCo — Services d'entretien ménager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf8f3;
+      --deep-green: #1a2e1f;
+      --sage: #4a7c59;
+      --sage-light: #7aaa8a;
+      --gold: #c8a96e;
+      --gold-light: #e8d5a3;
+      --charcoal: #2d2d2d;
+      --gray: #8a8a8a;
+      --light-gray: #e8e4da;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(245, 240, 232, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200, 169, 110, 0.2);
+      transition: padding .3s;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--deep-green);
+      letter-spacing: .04em;
+    }
+    .logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .85rem; font-weight: 400;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--charcoal); transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--sage); }
+    .nav-cta {
+      background: var(--deep-green); color: var(--cream) !important;
+      padding: .55rem 1.4rem !important; border-radius: 2px;
+      transition: background .25s !important;
+    }
+    .nav-cta:hover { background: var(--sage) !important; color: var(--cream) !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-left {
+      background: var(--deep-green);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 5rem 6rem 6rem;
+      position: relative;
+    }
+    .hero-left::before {
+      content: '';
+      position: absolute; top: 0; right: -60px; bottom: 0; width: 120px;
+      background: var(--deep-green);
+      clip-path: polygon(0 0, 60% 0, 100% 50%, 60% 100%, 0 100%);
+      z-index: 2;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(200,169,110,.15); border: 1px solid rgba(200,169,110,.4);
+      color: var(--gold-light); font-size: .75rem; letter-spacing: .14em;
+      text-transform: uppercase; padding: .4rem 1rem; border-radius: 2px;
+      margin-bottom: 2rem; width: fit-content;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 4.4rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--cream); margin-bottom: 1.6rem;
+      animation: fadeUp .8s .15s ease both;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; display: block; }
+    .hero-sub {
+      color: rgba(245,240,232,.6); font-size: 1rem; line-height: 1.75;
+      max-width: 400px; margin-bottom: 3rem;
+      animation: fadeUp .8s .3s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem;
+      animation: fadeUp .8s .45s ease both;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--deep-green);
+      padding: .9rem 2.2rem; font-size: .85rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      border: none; cursor: pointer; border-radius: 2px;
+      text-decoration: none; display: inline-block;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,169,110,.4); }
+    .btn-outline {
+      background: transparent; color: var(--cream);
+      padding: .9rem 2.2rem; font-size: .85rem; font-weight: 400;
+      letter-spacing: .1em; text-transform: uppercase;
+      border: 1px solid rgba(245,240,232,.35); cursor: pointer; border-radius: 2px;
+      text-decoration: none; display: inline-block;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 4rem; padding-top: 2.5rem;
+      border-top: 1px solid rgba(245,240,232,.15);
+      animation: fadeUp .8s .6s ease both;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600; color: var(--gold);
+    }
+    .stat-label { font-size: .75rem; color: rgba(245,240,232,.5); letter-spacing: .08em; text-transform: uppercase; margin-top: .1rem; }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+      animation: fadeIn 1.2s .2s ease both;
+    }
+    .hero-right::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,46,31,.3) 0%, transparent 60%);
+    }
+    .hero-right img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.9) saturate(1.1);
+    }
+    .hero-float-card {
+      position: absolute; bottom: 3rem; right: 3rem; z-index: 3;
+      background: rgba(245,240,232,.96); backdrop-filter: blur(10px);
+      padding: 1.4rem 1.8rem; border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      animation: floatUp 1s .8s ease both;
+    }
+    .float-stars { color: var(--gold); font-size: 1rem; letter-spacing: .1em; }
+    .float-text { font-size: .8rem; color: var(--gray); margin-top: .3rem; }
+    .float-text strong { color: var(--charcoal); }
+
+    /* ─── SERVICES ─── */
+    .services {
+      padding: 8rem 6rem;
+      background: var(--warm-white);
+    }
+    .section-label {
+      font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3rem); font-weight: 300;
+      color: var(--deep-green); line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-sub { color: var(--gray); max-width: 480px; line-height: 1.8; font-size: .95rem; }
+
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .service-card {
+      background: var(--cream);
+      padding: 2.8rem 2.4rem;
+      border-radius: 2px;
+      position: relative; overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+      cursor: pointer;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(26,46,31,.12);
+      z-index: 1;
+    }
+    .service-card:hover .service-icon-wrap { background: var(--deep-green); }
+    .service-card:hover .service-icon { filter: brightness(10); }
+    .service-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s ease;
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon-wrap {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--light-gray);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.6rem;
+      transition: background .3s;
+    }
+    .service-icon { font-size: 1.4rem; }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600; color: var(--deep-green);
+      margin-bottom: .7rem;
+    }
+    .service-desc { font-size: .88rem; color: var(--gray); line-height: 1.75; margin-bottom: 1.5rem; }
+    .service-link {
+      font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--sage); text-decoration: none;
+      display: flex; align-items: center; gap: .4rem;
+      transition: gap .2s;
+    }
+    .service-card:hover .service-link { gap: .7rem; }
+
+    /* ─── WHY US ─── */
+    .why {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .why-visual {
+      position: relative; overflow: hidden;
+    }
+    .why-visual img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.85) saturate(1.05);
+    }
+    .why-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--warm-white));
+    }
+    .why-content {
+      background: var(--warm-white);
+      padding: 6rem 5rem 6rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .why-items { margin-top: 3rem; display: flex; flex-direction: column; gap: 2rem; }
+    .why-item { display: flex; gap: 1.4rem; align-items: flex-start; }
+    .why-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; color: var(--gold-light);
+      line-height: 1; min-width: 2.5rem;
+    }
+    .why-item-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 600; color: var(--deep-green);
+      margin-bottom: .4rem;
+    }
+    .why-item-desc { font-size: .87rem; color: var(--gray); line-height: 1.75; }
+
+    /* ─── PROCESS ─── */
+    .process {
+      background: var(--deep-green);
+      padding: 8rem 6rem;
+      text-align: center;
+    }
+    .process .section-label { color: var(--gold-light); }
+    .process .section-title { color: var(--cream); margin: 0 auto 1rem; max-width: 500px; }
+    .process .section-sub { color: rgba(245,240,232,.55); margin: 0 auto 5rem; }
+
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(255,255,255,.08);
+      border-radius: 4px; overflow: hidden;
+    }
+    .step {
+      background: rgba(255,255,255,.04);
+      padding: 3rem 2rem;
+      position: relative;
+      transition: background .3s;
+    }
+    .step:hover { background: rgba(255,255,255,.09); }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem; font-weight: 300; color: rgba(200,169,110,.2);
+      line-height: 1; margin-bottom: 1.2rem;
+    }
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600; color: var(--cream);
+      margin-bottom: .6rem;
+    }
+    .step-desc { font-size: .83rem; color: rgba(245,240,232,.5); line-height: 1.75; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials {
+      padding: 8rem 6rem;
+      background: var(--cream);
+    }
+    .testi-header { text-align: center; margin-bottom: 4rem; }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .testi-card {
+      background: var(--warm-white);
+      padding: 2.4rem;
+      border-radius: 4px;
+      border: 1px solid var(--light-gray);
+      position: relative;
+      transition: box-shadow .3s, transform .3s;
+    }
+    .testi-card:hover { box-shadow: 0 16px 40px rgba(26,46,31,.1); transform: translateY(-4px); }
+    .testi-card::before {
+      content: '"'; font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem; color: var(--gold-light); line-height: 0;
+      position: absolute; top: 2.5rem; right: 2rem;
+    }
+    .testi-stars { color: var(--gold); font-size: .9rem; margin-bottom: 1rem; }
+    .testi-text { font-size: .9rem; color: var(--charcoal); line-height: 1.8; margin-bottom: 1.6rem; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: .9rem; }
+    .testi-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--sage); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; font-weight: 500;
+    }
+    .testi-name { font-size: .85rem; font-weight: 500; color: var(--deep-green); }
+    .testi-role { font-size: .75rem; color: var(--gray); }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      position: relative; overflow: hidden;
+      padding: 8rem 6rem;
+      background: linear-gradient(135deg, var(--deep-green) 0%, #2a4a35 100%);
+      text-align: center;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; top: -50%; left: -20%; width: 60%; height: 200%;
+      background: radial-gradient(ellipse, rgba(200,169,110,.1) 0%, transparent 70%);
+    }
+    .cta-section::after {
+      content: '';
+      position: absolute; bottom: -30%; right: -10%; width: 50%; height: 150%;
+      background: radial-gradient(ellipse, rgba(74,124,89,.2) 0%, transparent 70%);
+    }
+    .cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+    .cta-section .section-label { color: var(--gold-light); }
+    .cta-section .section-title { color: var(--cream); margin: 0 auto 1.2rem; }
+    .cta-section .section-sub { color: rgba(245,240,232,.6); margin: 0 auto 3rem; }
+    .cta-form {
+      display: flex; gap: .8rem;
+      justify-content: center;
+    }
+    .cta-input {
+      flex: 1; max-width: 280px;
+      padding: .9rem 1.4rem; border: 1px solid rgba(245,240,232,.25);
+      background: rgba(245,240,232,.08); color: var(--cream);
+      border-radius: 2px; font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; outline: none;
+      transition: border-color .2s;
+    }
+    .cta-input::placeholder { color: rgba(245,240,232,.4); }
+    .cta-input:focus { border-color: var(--gold); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #111c14;
+      padding: 5rem 6rem 2.5rem;
+      color: rgba(245,240,232,.5);
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+      margin-bottom: 4rem; padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(245,240,232,.1);
+    }
+    .footer-brand .logo { margin-bottom: 1.2rem; display: block; }
+    .footer-brand p { font-size: .85rem; line-height: 1.8; max-width: 280px; }
+    .footer-col h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600; color: var(--cream);
+      margin-bottom: 1.2rem; letter-spacing: .04em;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul li a {
+      font-size: .83rem; color: rgba(245,240,232,.45); text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .78rem;
+    }
+    .social-links { display: flex; gap: 1rem; }
+    .social-link {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(245,240,232,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(245,240,232,.4); text-decoration: none; font-size: .85rem;
+      transition: border-color .2s, color .2s;
+    }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 4rem 2rem; }
+      .hero-left::before { display: none; }
+      .hero-right { height: 50vh; }
+      .services { padding: 5rem 2rem; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .services-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .why { grid-template-columns: 1fr; }
+      .why-visual { height: 40vh; }
+      .why-content { padding: 4rem 2rem; }
+      .process { padding: 5rem 2rem; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .testimonials { padding: 5rem 2rem; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 5rem 2rem; }
+      .cta-form { flex-direction: column; align-items: center; }
+      .cta-input { max-width: 100%; width: 100%; }
+      footer { padding: 4rem 2rem 2rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="logo">Clean<span>Co</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pourquoi">Pourquoi nous</a></li>
+    <li><a href="#processus">Comment ça marche</a></li>
+    <li><a href="#avis">Avis clients</a></li>
+    <li><a href="#contact" class="nav-cta">Devis gratuit</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">✦ Certifié & Assuré</div>
+    <h1 class="hero-title">
+      Un intérieur<br>
+      <em>impeccable,</em>
+      à votre service
+    </h1>
+    <p class="hero-sub">
+      Nous prenons soin de votre espace comme s'il était le nôtre. Des professionnels formés, des produits écologiques, et un résultat qui dépasse vos attentes.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Obtenir un devis</a>
+      <a href="#services" class="btn-outline">Nos services</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">1 200+</div>
+        <div class="stat-label">Clients satisfaits</div>
+      </div>
+      <div>
+        <div class="stat-num">8 ans</div>
+        <div class="stat-label">D'expérience</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Note moyenne</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&q=85" alt="Entretien ménager professionnel"/>
+    <div class="hero-float-card">
+      <div class="float-stars">★★★★★</div>
+      <div class="float-text"><strong>Sophie M.</strong> — Client fidèle</div>
+      <div class="float-text" style="margin-top:.3rem">"Résultat parfait, équipe adorable !"</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <div>
+      <p class="section-label">✦ Ce que nous offrons</p>
+      <h2 class="section-title">Des services adaptés<br>à chaque besoin</h2>
+    </div>
+    <p class="section-sub">Du nettoyage régulier aux grands travaux, notre équipe s'adapte à votre rythme de vie et vos exigences.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon-wrap"><span class="service-icon">🏠</span></div>
+      <div class="service-name">Ménage régulier</div>
+      <p class="service-desc">Entretien hebdomadaire ou bimensuel de votre domicile. Dépoussiérage, aspiration, nettoyage des surfaces et des sols.</p>
+      <a href="#contact" class="service-link">En savoir plus →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon-wrap"><span class="service-icon">✨</span></div>
+      <div class="service-name">Nettoyage profond</div>
+      <p class="service-desc">Un grand ménage de printemps ou avant emménagement. Chaque recoin est traité avec soin et minutie.</p>
+      <a href="#contact" class="service-link">En savoir plus →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon-wrap"><span class="service-icon">🏢</span></div>
+      <div class="service-name">Bureaux & Entreprises</div>
+      <p class="service-desc">Nettoyage de locaux professionnels tôt le matin ou le soir, sans perturber vos activités.</p>
+      <a href="#contact" class="service-link">En savoir plus →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon-wrap"><span class="service-icon">🪟</span></div>
+      <div class="service-name">Vitres & Façades</div>
+      <p class="service-desc">Nettoyage de vitres intérieures et extérieures, baies vitrées, velux et verrières.</p>
+      <a href="#contact" class="service-link">En savoir plus →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon-wrap"><span class="service-icon">🛋️</span></div>
+      <div class="service-name">Tissus & Canapés</div>
+      <p class="service-desc">Nettoyage à vapeur de canapés, moquettes, rideaux et matelas. Élimination des acariens et taches tenaces.</p>
+      <a href="#contact" class="service-link">En savoir plus →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon-wrap"><span class="service-icon">🌿</span></div>
+      <div class="service-name">Éco-responsable</div>
+      <p class="service-desc">Nous utilisons exclusivement des produits certifiés écologiques, sans danger pour votre famille et la planète.</p>
+      <a href="#contact" class="service-link">En savoir plus →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY US ─── -->
+<section class="why" id="pourquoi">
+  <div class="why-visual">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=85" alt="Équipe professionnelle"/>
+    <div class="why-visual-overlay"></div>
+  </div>
+  <div class="why-content">
+    <p class="section-label reveal">✦ Pourquoi nous choisir</p>
+    <h2 class="section-title reveal">La différence<br>CleanCo</h2>
+    <div class="why-items">
+      <div class="why-item reveal">
+        <div class="why-number">01</div>
+        <div>
+          <div class="why-item-title">Personnel vérifié & formé</div>
+          <p class="why-item-desc">Chaque membre de notre équipe fait l'objet d'une vérification rigoureuse et bénéficie d'une formation continue.</p>
+        </div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-number">02</div>
+        <div>
+          <div class="why-item-title">Satisfaction garantie</div>
+          <p class="why-item-desc">Si vous n'êtes pas satisfait, nous revenons gratuitement dans les 48h. Votre bonheur est notre priorité absolue.</p>
+        </div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-number">03</div>
+        <div>
+          <div class="why-item-title">Tarifs transparents</div>
+          <p class="why-item-desc">Pas de mauvaises surprises. Devis gratuit, détaillé et sans engagement dans les 24 heures.</p>
+        </div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-number">04</div>
+        <div>
+          <div class="why-item-title">Flexibilité totale</div>
+          <p class="why-item-desc">Nous nous adaptons à vos horaires, week-ends et jours fériés inclus. Votre confort avant tout.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section class="process" id="processus">
+  <p class="section-label reveal">✦ Comment ça marche</p>
+  <h2 class="section-title reveal">Simple comme bonjour</h2>
+  <p class="section-sub reveal">Réservez en quelques minutes et laissez-nous faire le reste.</p>
+  <div class="process-steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <div class="step-icon">📋</div>
+      <div class="step-title">Demande de devis</div>
+      <p class="step-desc">Remplissez notre formulaire en ligne ou appelez-nous. Décrivez vos besoins en quelques secondes.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <div class="step-icon">💬</div>
+      <div class="step-title">Devis personnalisé</div>
+      <p class="step-desc">Nous vous envoyons un devis détaillé et sans engagement sous 24h.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <div class="step-icon">📅</div>
+      <div class="step-title">Planification</div>
+      <p class="step-desc">Choisissez la date et l'heure qui vous convient. Nous confirmons votre créneau immédiatement.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <div class="step-icon">🌟</div>
+      <div class="step-title">Profitez !</div>
+      <p class="step-desc">Notre équipe intervient et vous retrouvez un intérieur impeccable. C'est aussi simple que ça.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="testimonials" id="avis">
+  <div class="testi-header">
+    <p class="section-label reveal">✦ Témoignages clients</p>
+    <h2 class="section-title reveal">Ils nous font confiance</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Une équipe au top ! Mon appartement brille comme jamais. Je recommande CleanCo les yeux fermés. Ponctuelle, professionnelle et vraiment agréable.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SM</div>
+        <div>
+          <div class="testi-name">Sophie Martin</div>
+          <div class="testi-role">Cliente depuis 3 ans</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Je fais appel à CleanCo pour mes bureaux tous les lundis matins. Résultat impeccable, l'équipe est discrète et très efficace. Un service 5 étoiles.</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#4a7c59">PD</div>
+        <div>
+          <div class="testi-name">Pierre Dubois</div>
+          <div class="testi-role">Directeur d'agence</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Le nettoyage de fin de bail a été parfait. Caution récupérée intégralement ! Je n'aurais jamais cru que mon appartement pourrait être aussi propre.</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#c8a96e; color:#1a2e1f">LR</div>
+        <div>
+          <div class="testi-name">Lucie Renaud</div>
+          <div class="testi-role">Cliente particulière</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <p class="section-label reveal">✦ Prêt à commencer ?</p>
+    <h2 class="section-title reveal">Votre devis gratuit<br>en 24 heures</h2>
+    <p class="section-sub reveal">Laissez-nous votre email ou votre numéro et nous vous recontactons rapidement pour organiser votre première intervention.</p>
+    <div class="cta-form reveal">
+      <input type="email" class="cta-input" placeholder="Votre adresse email"/>
+      <button class="btn-primary" onclick="alert('Merci ! Nous vous contacterons sous 24h.')">Demander un devis</button>
+    </div>
+    <p style="font-size:.75rem; color:rgba(245,240,232,.35); margin-top:1.2rem;">
+      Ou appelez-nous directement : <strong style="color:var(--gold-light)">+33 1 23 45 67 89</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">Clean<span>Co</span></div>
+      <p>Des professionnels passionnés au service de votre bien-être. Parce qu'un espace propre est un espace où il fait bon vivre.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Ménage régulier</a></li>
+        <li><a href="#">Nettoyage profond</a></li>
+        <li><a href="#">Bureaux & Entreprises</a></li>
+        <li><a href="#">Vitres & Façades</a></li>
+        <li><a href="#">Tissus & Canapés</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Entreprise</h4>
+      <ul>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Notre équipe</a></li>
+        <li><a href="#">Recrutement</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Presse</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">+33 1 23 45 67 89</a></li>
+        <li><a href="#">contact@cleancoservices.fr</a></li>
+        <li><a href="#">Paris & Île-de-France</a></li>
+        <li><a href="#">Lun–Sam, 7h–20h</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 CleanCo Services. Tous droits réservés.</p>
+    <div class="social-links">
+      <a href="#" class="social-link">f</a>
+      <a href="#" class="social-link">in</a>
+      <a href="#" class="social-link">ig</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Sticky nav shrink
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.padding =
+      window.scrollY > 60 ? '1rem 4rem' : '1.4rem 4rem';
+  });
+</script>
+</body>
+</html>
